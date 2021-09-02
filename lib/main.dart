@@ -1,6 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:fitfix/screens/authScrren.dart';
 import 'package:fitfix/screens/homeScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,9 +19,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: HomeScreen(),
-      // routes: {
-      //   AuthScreen.routeName: (context) => AuthScreen(),
-      // },
+      routes: {
+        AuthScreen.routeName: (context) => AuthScreen(),
+      },
     );
   }
 }

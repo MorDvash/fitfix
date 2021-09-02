@@ -1,7 +1,13 @@
+import 'package:fitfix/screens/authScrren.dart';
+import 'package:fitfix/widgets/textDivider.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  void navigateToSignUp(BuildContext context) {
+    Navigator.of(context).pushNamed(AuthScreen.routeName, arguments: 'Sign Up');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +22,19 @@ class HomeScreen extends StatelessWidget {
         child: SafeArea(
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text.rich(
+                const Text.rich(
                   TextSpan(
                       text: 'Fit',
-                      style: TextStyle(fontSize: 80),
+                      style: TextStyle(fontSize: 80, color: Colors.white),
                       children: [
                         TextSpan(
                           text: 'Fix',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 80),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 80,
+                              color: Colors.blue),
                         ),
                       ]),
                 ),
@@ -34,25 +42,53 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.email),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.email),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.email),
-                    )
+                    SocialMediaButtons('images/facebook.png'),
+                    SocialMediaButtons('images/google.png'),
+                    SocialMediaButtons('images/email.png'),
                   ],
                 ),
+                TextDivider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // RoundedElevatedButton(
+                    //     'Create a New Account', navigateToSignUp(context))
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20))),
+                      child: const Text(
+                        'Create a New Account',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(AuthScreen.routeName,
+                            arguments: 'Sign Up');
+                      },
+                    )
+                  ],
+                )
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class SocialMediaButtons extends StatelessWidget {
+  final String imagePath;
+
+  SocialMediaButtons(this.imagePath);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {},
+      child: Image.asset(imagePath),
     );
   }
 }
