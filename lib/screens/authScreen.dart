@@ -7,12 +7,20 @@ class AuthScreen extends StatefulWidget {
 
   @override
   _AuthScreenState createState() => _AuthScreenState();
-
-  void signUpByEmail() {}
 }
 
 class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
+  var _userEmail = '';
+  var _userName = '';
+  var _userPassword = '';
+
+  Future<void> signUp() async {
+    // bool isValid = _formKey.currentState!.validate();
+    // if(isValid) {
+    //   Provider.of<AuthProvider>(context).signUpWithEmail(email, password)
+    // }
+  }
   @override
   Widget build(BuildContext context) {
     final title = ModalRoute.of(context)!.settings.arguments as String;
@@ -33,7 +41,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 SizedBox(height: 10),
                 TextForm('Password'),
                 SizedBox(height: 30),
-                RoundedElevatedButton(title, widget.signUpByEmail),
+                RoundedElevatedButton(title, signUp),
               ],
             ),
           ),
