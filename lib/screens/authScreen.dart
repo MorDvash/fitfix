@@ -1,3 +1,4 @@
+import 'package:fitfix/widgets/roundedElevatedButton.dart';
 import 'package:flutter/material.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -6,6 +7,8 @@ class AuthScreen extends StatefulWidget {
 
   @override
   _AuthScreenState createState() => _AuthScreenState();
+
+  void signUpByEmail() {}
 }
 
 class _AuthScreenState extends State<AuthScreen> {
@@ -17,12 +20,6 @@ class _AuthScreenState extends State<AuthScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(title),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.cancel),
-            )
-          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -35,6 +32,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 if (title == 'Sign Up') TextForm('Username'),
                 SizedBox(height: 10),
                 TextForm('Password'),
+                SizedBox(height: 30),
+                RoundedElevatedButton(title, widget.signUpByEmail),
               ],
             ),
           ),

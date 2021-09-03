@@ -1,4 +1,5 @@
-import 'package:fitfix/screens/authScrren.dart';
+import 'package:fitfix/screens/authScreen.dart';
+import 'package:fitfix/widgets/roundedElevatedButton.dart';
 import 'package:fitfix/widgets/textDivider.dart';
 import 'package:flutter/material.dart';
 
@@ -51,22 +52,9 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // RoundedElevatedButton(
-                    //     'Create a New Account', navigateToSignUp(context))
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 10),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20))),
-                      child: const Text(
-                        'Create a New Account',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(AuthScreen.routeName,
-                            arguments: 'Sign Up');
-                      },
+                    RoundedElevatedButton(
+                      'Create a New Account',
+                      navigateToSignUp,
                     )
                   ],
                 )

@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fitfix/screens/authScrren.dart';
+import 'package:fitfix/screens/authScreen.dart';
 import 'package:fitfix/screens/homeScreen.dart';
 import 'package:flutter/material.dart';
 

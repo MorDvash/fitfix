@@ -19,7 +19,7 @@ class RoundedElevatedButton extends StatelessWidget {
         label,
         style: TextStyle(fontSize: 20),
       ),
-      onPressed: () => onClick,
+      onPressed: () => onClick(context),
     );
   }
 }
