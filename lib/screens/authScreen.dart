@@ -42,7 +42,7 @@ class _AuthScreenState extends State<AuthScreen> {
     if (isValid) {
       _formKey.currentState!.save();
       Provider.of<AuthProvider>(context, listen: false)
-          .signUpWithEmail(_email, _password);
+          .signUpWithEmail(_email, _password, _userName);
     }
   }
 
