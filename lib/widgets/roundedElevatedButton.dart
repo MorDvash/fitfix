@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class RoundedElevatedButton extends StatelessWidget {
   final String label;
   final Function onClick;
+  final dynamic variableFunction;
 
-  RoundedElevatedButton(this.label, this.onClick);
+  RoundedElevatedButton(this.label, this.onClick, this.variableFunction);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,8 @@ class RoundedElevatedButton extends StatelessWidget {
         label,
         style: TextStyle(fontSize: 20),
       ),
-      onPressed: () => onClick(context),
+      onPressed: () =>
+          {variableFunction != null ? onClick(variableFunction) : onClick()},
     );
   }
 }

@@ -31,6 +31,9 @@ class MyApp extends StatelessWidget {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, userSnapShot) {
+            // if (userSnapShot.connectionState == ConnectionState.waiting) {
+            //   return LoadingCircular();
+            // }
             if (userSnapShot.hasData) {
               return UserHomeScreen();
             }

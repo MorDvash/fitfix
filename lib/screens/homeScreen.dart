@@ -55,6 +55,7 @@ class HomeScreen extends StatelessWidget {
                     RoundedElevatedButton(
                       'Create a New Account',
                       navigateToSignUp,
+                      context,
                     )
                   ],
                 )
