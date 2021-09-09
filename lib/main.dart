@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fitfix/provider/authProvider.dart';
+import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/screens/authScreen.dart';
 import 'package:fitfix/screens/homeScreen.dart';
 import 'package:fitfix/screens/userHomeScreen.dart';

@@ -1,4 +1,4 @@
-import 'package:fitfix/provider/authProvider.dart';
+import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/widgets/roundedElevatedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
