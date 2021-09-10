@@ -24,20 +24,17 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     var googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
     var googleAuth = await googleUser!.authentication;
-
-    // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    var userInfo = await FirebaseAuth.instance.signInWithCredential(credential);
+    var uid = FirebaseAuth.instance.currentUser!.uid;
+    await UserApi.saveUserDetails(userInfo.user!.displayName as String, uid,
+        userInfo.user!.email as String);
   }
 
   Future<void> signOut() async {
