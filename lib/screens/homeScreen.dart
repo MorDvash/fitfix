@@ -81,7 +81,11 @@ class SocialMediaButtons extends StatelessWidget {
       onPressed: () {
         if (imagePath.contains('google')) {
           Provider.of<AuthProvider>(context, listen: false).signInWithGoogle();
-        } else {}
+        } else if (imagePath.contains('facebook')) {
+        } else if (imagePath.contains('email')) {
+          Navigator.of(context)
+              .pushNamed(AuthScreen.routeName, arguments: 'Sign In');
+        }
       },
       child: Image.asset(imagePath),
     );

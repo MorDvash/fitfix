@@ -37,12 +37,17 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
-  void signUp() {
+  void register(title) {
     bool isValid = _formKey.currentState!.validate();
     if (isValid) {
       _formKey.currentState!.save();
-      Provider.of<AuthProvider>(context, listen: false)
-          .signUpWithEmail(_email, _password, _userName);
+      if (title == 'Sign Up') {
+        Provider.of<AuthProvider>(context, listen: false)
+            .signUpWithEmail(_email, _password, _userName);
+      } else {
+        Provider.of<AuthProvider>(context, listen: false)
+            .signInWithEmail(_email, _password);
+      }
     }
   }
 
@@ -67,7 +72,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 SizedBox(height: 10),
                 TextForm('Password', 'password', onSaved),
                 SizedBox(height: 30),
-                RoundedElevatedButton(title, signUp, null),
+                RoundedElevatedButton(title, register, title),
               ],
             ),
           ),
