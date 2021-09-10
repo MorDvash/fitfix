@@ -19,22 +19,30 @@ class AuthProvider with ChangeNotifier {
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
       }
-    } catch (e) {
-      print(e);
+    } catch (error) {
+      print(error);
     }
   }
 
   Future<void> signInWithGoogle() async {
-    var googleUser = await GoogleSignIn().signIn();
-    var googleAuth = await googleUser!.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    var userInfo = await FirebaseAuth.instance.signInWithCredential(credential);
-    var uid = FirebaseAuth.instance.currentUser!.uid;
-    await UserApi.saveUserDetails(userInfo.user!.displayName as String, uid,
-        userInfo.user!.email as String);
+    try {
+      var googleUser = await GoogleSignIn().signIn();
+      var googleAuth = await googleUser!.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      var userInfo =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      var uid = FirebaseAuth.instance.currentUser!.uid;
+      if (userInfo.additionalUserInfo!.isNewUser) {
+        await UserApi.saveUserDetails(userInfo.user!.displayName as String, uid,
+            userInfo.user!.email as String);
+        print('registerd');
+      }
+    } catch (error) {
+      print(error);
+    }
   }
 
   Future<void> signOut() async {
