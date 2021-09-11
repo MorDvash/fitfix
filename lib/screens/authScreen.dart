@@ -1,6 +1,7 @@
 import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/widgets/roundedElevatedButton.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -53,6 +54,20 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _passwordValidator = MultiValidator([
+      RequiredValidator(errorText: 'Password is required'),
+      MinLengthValidator(7,
+          errorText: 'Password must be at least 7 digits long'),
+    ]);
+    final _emailValidator = MultiValidator([
+      RequiredValidator(errorText: 'Email is required'),
+      EmailValidator(errorText: 'Enter a valid email address'),
+    ]);
+    final _usernameValidator = MultiValidator([
+      RequiredValidator(errorText: 'Username is required'),
+      MinLengthValidator(2,
+          errorText: 'Username must be at least 2 digits long'),
+    ]);
     final title = ModalRoute.of(context)!.settings.arguments as String;
     return SafeArea(
       child: Scaffold(
@@ -65,12 +80,15 @@ class _AuthScreenState extends State<AuthScreen> {
             key: _formKey,
             child: Column(
               children: [
-                TextForm('Email Address', 'email', onSaved),
+                TextForm(
+                    'Email Address', 'email', onSaved, _emailValidator, false),
                 SizedBox(height: 10),
                 if (title == 'Sign Up')
-                  TextForm('Username', 'userName', onSaved),
+                  TextForm('Username', 'userName', onSaved, _usernameValidator,
+                      false),
                 SizedBox(height: 10),
-                TextForm('Password', 'password', onSaved),
+                TextForm(
+                    'Password', 'password', onSaved, _passwordValidator, true),
                 SizedBox(height: 30),
                 RoundedElevatedButton(title, register, title),
               ],
@@ -86,8 +104,11 @@ class TextForm extends StatefulWidget {
   final String placeholder;
   final String variable;
   final Function onSaved;
+  final MultiValidator validator;
+  final bool hideText;
 
-  TextForm(this.placeholder, this.variable, this.onSaved);
+  TextForm(this.placeholder, this.variable, this.onSaved, this.validator,
+      this.hideText);
 
   @override
   _TextFormState createState() => _TextFormState();
@@ -97,17 +118,13 @@ class _TextFormState extends State<TextForm> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: widget.hideText,
       decoration: InputDecoration(
         labelText: widget.placeholder,
         border: OutlineInputBorder(),
       ),
       onSaved: (value) => widget.onSaved(value, widget.variable),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter ${widget.placeholder}';
-        }
-        return null;
-      },
+      validator: widget.validator,
     );
   }
 }
