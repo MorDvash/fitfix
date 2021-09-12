@@ -14,6 +14,9 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _formEmailKey = GlobalKey<FormFieldState>();
+  final _formUserNameKey = GlobalKey<FormFieldState>();
+  final _formPasswordKey = GlobalKey<FormFieldState>();
   var _email = '';
   var _userName = '';
   var _password = '';
@@ -80,17 +83,32 @@ class _AuthScreenState extends State<AuthScreen> {
             key: _formKey,
             child: Column(
               children: [
-                TextForm(
-                    'Email Address', 'email', onSaved, _emailValidator, false),
+                TextForm('Email Address', 'email', onSaved, _emailValidator,
+                    false, _formEmailKey),
                 SizedBox(height: 10),
                 if (title == 'Sign Up')
                   TextForm('Username', 'userName', onSaved, _usernameValidator,
-                      false),
+                      false, _formUserNameKey),
                 SizedBox(height: 10),
-                TextForm(
-                    'Password', 'password', onSaved, _passwordValidator, true),
+                TextForm('Password', 'password', onSaved, _passwordValidator,
+                    true, _formPasswordKey),
                 SizedBox(height: 30),
                 RoundedElevatedButton(title, register, title),
+                SizedBox(height: 10),
+                if (title == 'Sign In')
+                  InkWell(
+                    onTap: () {
+                      bool isValid = _formEmailKey.currentState!.validate();
+                      if (isValid) {
+                        Provider.of<AuthProvider>(context, listen: false)
+                            .resetPassword(_email);
+                      }
+                    },
+                    child: new Text(
+                      'Forgot your password?',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -106,9 +124,10 @@ class TextForm extends StatefulWidget {
   final Function onSaved;
   final MultiValidator validator;
   final bool hideText;
+  final GlobalKey keyField;
 
   TextForm(this.placeholder, this.variable, this.onSaved, this.validator,
-      this.hideText);
+      this.hideText, this.keyField);
 
   @override
   _TextFormState createState() => _TextFormState();
@@ -120,7 +139,8 @@ class _TextFormState extends State<TextForm> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: _passwordVisible,
+      key: widget.keyField,
+      obscureText: widget.hideText ? _passwordVisible : false,
       decoration: InputDecoration(
         labelText: widget.placeholder,
         border: OutlineInputBorder(),

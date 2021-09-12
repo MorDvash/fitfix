@@ -58,6 +58,12 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  void resetPassword(String email) {
+    try {
+      FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } catch (error) {}
+  }
+
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
