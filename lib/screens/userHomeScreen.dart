@@ -1,6 +1,5 @@
-import 'package:fitfix/provider/userProvider.dart';
+import 'package:fitfix/middleware/FirebaseApi.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class UserHomeScreen extends StatelessWidget {
   const UserHomeScreen({Key? key}) : super(key: key);
@@ -19,7 +18,7 @@ class UserHomeScreen extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () {
-                    Provider.of<AuthProvider>(context, listen: false).signOut();
+                    FireBaseApi.signOut();
                   },
                   child: Text('Log Out'))
             ],

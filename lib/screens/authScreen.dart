@@ -1,9 +1,8 @@
-import 'package:fitfix/provider/userProvider.dart';
+import 'package:fitfix/middleware/FirebaseApi.dart';
 import 'package:fitfix/widgets/TextFormField.dart';
 import 'package:fitfix/widgets/roundedElevatedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
   static const routeName = 'authScreen';
@@ -47,11 +46,9 @@ class _AuthScreenState extends State<AuthScreen> {
     if (isValid) {
       _formKey.currentState!.save();
       if (title == 'Sign Up') {
-        Provider.of<AuthProvider>(context, listen: false)
-            .signUpWithEmail(_email, _password, _userName);
+        FireBaseApi.signUpWithEmail(_email, _password, _userName);
       } else {
-        Provider.of<AuthProvider>(context, listen: false)
-            .signInWithEmail(_email, _password);
+        FireBaseApi.signInWithEmail(_email, _password);
       }
     }
   }
@@ -123,8 +120,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     onTap: () {
                       bool isValid = _formEmailKey.currentState!.validate();
                       if (isValid) {
-                        Provider.of<AuthProvider>(context, listen: false)
-                            .resetPassword(_email);
+                        FireBaseApi.resetPassword(_email);
                       }
                     },
                     child: new Text(

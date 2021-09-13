@@ -1,9 +1,8 @@
-import 'package:fitfix/provider/userProvider.dart';
+import 'package:fitfix/middleware/FirebaseApi.dart';
 import 'package:fitfix/screens/authScreen.dart';
 import 'package:fitfix/widgets/roundedElevatedButton.dart';
 import 'package:fitfix/widgets/textDivider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -80,10 +79,9 @@ class SocialMediaButtons extends StatelessWidget {
     return TextButton(
       onPressed: () {
         if (imagePath.contains('google')) {
-          Provider.of<AuthProvider>(context, listen: false).signInWithGoogle();
+          FireBaseApi.signInWithGoogle();
         } else if (imagePath.contains('facebook')) {
-          Provider.of<AuthProvider>(context, listen: false)
-              .signInWithFacebook();
+          FireBaseApi.signInWithFacebook();
         } else if (imagePath.contains('email')) {
           Navigator.of(context)
               .pushNamed(AuthScreen.routeName, arguments: 'Sign In');
