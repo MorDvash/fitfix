@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class UserApi {
-  static saveUserDetails(String userName, String uid, String email) async {
+  static saveUserDetails(
+      String userName, String uid, String email, String imageUrl) async {
     var url = Uri.parse('http://localhost:4000/user/signUp');
     try {
       await http.post(url,
@@ -14,6 +15,7 @@ class UserApi {
             "uid": uid,
             "email": email,
             "name": userName,
+            "imageUrl": imageUrl,
           }));
     } catch (error) {
       print(error);

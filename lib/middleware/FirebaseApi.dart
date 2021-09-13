@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitfix/middleware/userApi.dart';
+import 'package:fitfix/provider/userProvider.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -11,7 +12,7 @@ class FireBaseApi {
     try {
       UserCredential userInfo = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      await UserApi.saveUserDetails(userName, userInfo.user!.uid, email);
+      saveUser(userInfo);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -46,10 +47,7 @@ class FireBaseApi {
       );
       var userInfo =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      if (userInfo.additionalUserInfo!.isNewUser) {
-        await UserApi.saveUserDetails(userInfo.user!.displayName as String,
-            userInfo.user!.uid, userInfo.user!.email as String);
-      }
+      saveUser(userInfo);
     } catch (error) {
       print(error);
     }
@@ -63,15 +61,24 @@ class FireBaseApi {
             FacebookAuthProvider.credential(result.accessToken!.token);
         final userInfo =
             await FirebaseAuth.instance.signInWithCredential(credential);
-        if (userInfo.additionalUserInfo!.isNewUser) {
-          await UserApi.saveUserDetails(userInfo.user!.displayName as String,
-              userInfo.user!.uid, userInfo.user!.email as String);
-        }
+        saveUser(userInfo);
       }
       return null;
     } catch (error) {
       print(error);
     }
+  }
+
+  static Future<void> saveUser(userInfo) async {
+    String userName = userInfo.user!.displayName as String;
+    String email = userInfo.user!.email as String;
+    String photoURL = userInfo.user!.photoURL as String;
+    String uid = userInfo.user!.uid;
+    String token = await FirebaseAuth.instance.currentUser!.getIdToken();
+    if (userInfo.additionalUserInfo!.isNewUser) {
+      await UserApi.saveUserDetails(userName, uid, email, photoURL);
+    }
+    UserProvider.userSignIn(email, userName, token, photoURL);
   }
 
   static void resetPassword(String email) {
