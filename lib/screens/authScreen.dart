@@ -1,4 +1,5 @@
 import 'package:fitfix/provider/userProvider.dart';
+import 'package:fitfix/widgets/TextFormField.dart';
 import 'package:fitfix/widgets/roundedElevatedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -84,14 +85,22 @@ class _AuthScreenState extends State<AuthScreen> {
             child: Column(
               children: [
                 TextForm('Email Address', 'email', onSaved, _emailValidator,
-                    false, _formEmailKey),
+                    false, _formEmailKey, true, TextInputType.emailAddress),
                 SizedBox(height: 10),
                 if (title == 'Sign Up')
                   TextForm('Username', 'userName', onSaved, _usernameValidator,
-                      false, _formUserNameKey),
+                      false, _formUserNameKey, false, TextInputType.name),
                 SizedBox(height: 10),
-                TextForm('Password', 'password', onSaved, _passwordValidator,
-                    true, _formPasswordKey),
+                TextForm(
+                    'Password',
+                    'password',
+                    onSaved,
+                    _passwordValidator,
+                    true,
+                    _formPasswordKey,
+                    false,
+                    TextInputType.numberWithOptions(
+                        signed: true, decimal: true)),
                 SizedBox(height: 30),
                 RoundedElevatedButton(title, register, title),
                 SizedBox(height: 10),
@@ -114,54 +123,6 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class TextForm extends StatefulWidget {
-  final String placeholder;
-  final String variable;
-  final Function onSaved;
-  final MultiValidator validator;
-  final bool hideText;
-  final GlobalKey keyField;
-
-  TextForm(this.placeholder, this.variable, this.onSaved, this.validator,
-      this.hideText, this.keyField);
-
-  @override
-  _TextFormState createState() => _TextFormState();
-}
-
-@override
-class _TextFormState extends State<TextForm> {
-  var _passwordVisible = true;
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      key: widget.keyField,
-      obscureText: widget.hideText ? _passwordVisible : false,
-      decoration: InputDecoration(
-        labelText: widget.placeholder,
-        border: OutlineInputBorder(),
-        suffixIcon: IconButton(
-          icon: Icon(
-            widget.hideText
-                ? _passwordVisible
-                    ? Icons.visibility
-                    : Icons.visibility_off
-                : null,
-            color: Theme.of(context).primaryColorDark,
-          ),
-          onPressed: () {
-            setState(() {
-              _passwordVisible = !_passwordVisible;
-            });
-          },
-        ),
-      ),
-      onSaved: (value) => widget.onSaved(value, widget.variable),
-      validator: widget.validator,
     );
   }
 }
