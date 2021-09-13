@@ -84,22 +84,36 @@ class _AuthScreenState extends State<AuthScreen> {
             key: _formKey,
             child: Column(
               children: [
-                TextForm('Email Address', 'email', onSaved, _emailValidator,
-                    false, _formEmailKey, true, TextInputType.emailAddress),
+                TextForm(
+                    placeholder: 'Email Address',
+                    variable: 'email',
+                    onSaved: onSaved,
+                    validator: _emailValidator,
+                    hideText: false,
+                    keyField: _formEmailKey,
+                    isFocus: true,
+                    keyType: TextInputType.emailAddress),
                 SizedBox(height: 10),
                 if (title == 'Sign Up')
-                  TextForm('Username', 'userName', onSaved, _usernameValidator,
-                      false, _formUserNameKey, false, TextInputType.name),
+                  TextForm(
+                      placeholder: 'Username',
+                      variable: 'userName',
+                      onSaved: onSaved,
+                      validator: _usernameValidator,
+                      hideText: false,
+                      keyField: _formUserNameKey,
+                      isFocus: false,
+                      keyType: TextInputType.name),
                 SizedBox(height: 10),
                 TextForm(
-                    'Password',
-                    'password',
-                    onSaved,
-                    _passwordValidator,
-                    true,
-                    _formPasswordKey,
-                    false,
-                    TextInputType.numberWithOptions(
+                    placeholder: 'Password',
+                    variable: 'password',
+                    onSaved: onSaved,
+                    validator: _passwordValidator,
+                    hideText: true,
+                    keyField: _formPasswordKey,
+                    isFocus: false,
+                    keyType: TextInputType.numberWithOptions(
                         signed: true, decimal: true)),
                 SizedBox(height: 30),
                 RoundedElevatedButton(title, register, title),

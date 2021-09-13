@@ -11,8 +11,15 @@ class TextForm extends StatefulWidget {
   final bool isFocus;
   final TextInputType keyType;
 
-  TextForm(this.placeholder, this.variable, this.onSaved, this.validator,
-      this.hideText, this.keyField, this.isFocus, this.keyType);
+  TextForm(
+      {required this.placeholder,
+      required this.variable,
+      required this.onSaved,
+      required this.validator,
+      required this.hideText,
+      required this.keyField,
+      required this.isFocus,
+      required this.keyType});
 
   @override
   _TextFormState createState() => _TextFormState();
