@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitfix/middleware/userApi.dart';
+import 'package:fitfix/models/user.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -36,7 +37,7 @@ class FireBaseApi {
     }
   }
 
-  static Future<void> signInWithGoogle() async {
+  static Future<UserModel> signInWithGoogle() async {
     try {
       var googleUser = await GoogleSignIn().signIn();
       var googleAuth = await googleUser!.authentication;
@@ -46,9 +47,10 @@ class FireBaseApi {
       );
       var userInfo =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      saveUser(userInfo);
+      return saveUser(userInfo);
     } catch (error) {
       print(error);
+      throw error;
     }
   }
 
@@ -68,7 +70,7 @@ class FireBaseApi {
     }
   }
 
-  static Future<void> saveUser(userInfo) async {
+  static Future<UserModel> saveUser(userInfo) async {
     String userName = userInfo.user!.displayName as String;
     String email = userInfo.user!.email as String;
     String photoURL = userInfo.user!.photoURL as String;
@@ -77,6 +79,8 @@ class FireBaseApi {
     if (userInfo.additionalUserInfo!.isNewUser) {
       await UserApi.saveUserDetails(userName, uid, email, photoURL);
     }
+    return UserModel(
+        userName: userName, email: email, token: token, imageUrl: photoURL);
   }
 
   static void resetPassword(String email) {
@@ -85,7 +89,7 @@ class FireBaseApi {
     } catch (error) {}
   }
 
-  static Future<void> signOut() async {
+  static Future<void> signOutFromFireBase() async {
     await FirebaseAuth.instance.signOut();
   }
 }

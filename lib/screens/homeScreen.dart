@@ -1,8 +1,10 @@
 import 'package:fitfix/middleware/FirebaseApi.dart';
+import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/screens/authScreen.dart';
 import 'package:fitfix/widgets/roundedElevatedButton.dart';
 import 'package:fitfix/widgets/textDivider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -74,18 +76,24 @@ class SocialMediaButtons extends StatelessWidget {
 
   SocialMediaButtons(this.imagePath);
 
+  Future<void> signWithSocial(BuildContext context) async {
+    if (imagePath.contains('google')) {
+      var userinfo = await FireBaseApi.signInWithGoogle();
+      Provider.of<UserProvider>(context, listen: false)
+          .insertUserInfo(userinfo);
+    } else if (imagePath.contains('facebook')) {
+      FireBaseApi.signInWithFacebook();
+    } else if (imagePath.contains('email')) {
+      Navigator.of(context)
+          .pushNamed(AuthScreen.routeName, arguments: 'התחברות');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        if (imagePath.contains('google')) {
-          FireBaseApi.signInWithGoogle();
-        } else if (imagePath.contains('facebook')) {
-          FireBaseApi.signInWithFacebook();
-        } else if (imagePath.contains('email')) {
-          Navigator.of(context)
-              .pushNamed(AuthScreen.routeName, arguments: 'התחברות');
-        }
+        signWithSocial(context);
       },
       child: Image.asset(imagePath),
     );

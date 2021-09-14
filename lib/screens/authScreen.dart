@@ -41,7 +41,7 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
-  void register(title) {
+  Future<void> register(title) async {
     bool isValid = _formKey.currentState!.validate();
     if (isValid) {
       _formKey.currentState!.save();

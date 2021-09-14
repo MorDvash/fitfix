@@ -1,10 +1,10 @@
-class User {
-  late String userName;
-  late String email;
-  late String token;
-  late String imageUrl;
+class UserModel {
+  String userName;
+  String email;
+  String token;
+  String imageUrl;
 
-  User(
+  UserModel(
       {required this.userName,
       required this.email,
       required this.token,

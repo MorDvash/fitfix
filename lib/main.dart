@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/screens/authScreen.dart';
@@ -20,30 +19,20 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) =>
-              // UserProvider(userName: '', email: '', token: '', imageUrl: ''),
-              UserProvider(),
+          create: (context) => UserProvider(),
         ),
       ],
-      child: MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Directionality(
-          textDirection: TextDirection.rtl,
-          child: StreamBuilder(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, userSnapShot) {
-              if (userSnapShot.hasData) {
-                return UserHomeScreen();
-              }
-              return HomeScreen();
-            },
+      child: Consumer<UserProvider>(
+        builder: (context, userProvider, _) => MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
           ),
+          home: userProvider.isAuth ? UserHomeScreen() : HomeScreen(),
+          routes: {
+            AuthScreen.routeName: (context) => AuthScreen(),
+          },
         ),
-        routes: {
-          AuthScreen.routeName: (context) => AuthScreen(),
-        },
       ),
     );
   }
