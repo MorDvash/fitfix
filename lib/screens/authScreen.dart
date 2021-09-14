@@ -45,7 +45,7 @@ class _AuthScreenState extends State<AuthScreen> {
     bool isValid = _formKey.currentState!.validate();
     if (isValid) {
       _formKey.currentState!.save();
-      if (title == 'Sign Up') {
+      if (title == 'הרשמה') {
         FireBaseApi.signUpWithEmail(_email, _password, _userName);
       } else {
         FireBaseApi.signInWithEmail(_email, _password);
@@ -70,6 +70,7 @@ class _AuthScreenState extends State<AuthScreen> {
           errorText: 'Username must be at least 2 digits long'),
     ]);
     final title = ModalRoute.of(context)!.settings.arguments as String;
+    var label = title == 'הרשמה' ? 'הרשם' : 'התחבר';
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -82,7 +83,7 @@ class _AuthScreenState extends State<AuthScreen> {
             child: Column(
               children: [
                 TextForm(
-                    placeholder: 'Email Address',
+                    placeholder: 'דוא״ל',
                     variable: 'email',
                     onSaved: onSaved,
                     validator: _emailValidator,
@@ -91,9 +92,9 @@ class _AuthScreenState extends State<AuthScreen> {
                     isFocus: true,
                     keyType: TextInputType.emailAddress),
                 SizedBox(height: 10),
-                if (title == 'Sign Up')
+                if (title == 'הרשמה')
                   TextForm(
-                      placeholder: 'Username',
+                      placeholder: 'שם משתמש',
                       variable: 'userName',
                       onSaved: onSaved,
                       validator: _usernameValidator,
@@ -103,7 +104,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       keyType: TextInputType.name),
                 SizedBox(height: 10),
                 TextForm(
-                    placeholder: 'Password',
+                    placeholder: 'סיסמא',
                     variable: 'password',
                     onSaved: onSaved,
                     validator: _passwordValidator,
@@ -113,9 +114,9 @@ class _AuthScreenState extends State<AuthScreen> {
                     keyType: TextInputType.numberWithOptions(
                         signed: true, decimal: true)),
                 SizedBox(height: 30),
-                RoundedElevatedButton(title, register, title),
+                RoundedElevatedButton(label, register, title),
                 SizedBox(height: 10),
-                if (title == 'Sign In')
+                if (title == 'התחברות')
                   InkWell(
                     onTap: () {
                       bool isValid = _formEmailKey.currentState!.validate();
@@ -124,7 +125,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       }
                     },
                     child: new Text(
-                      'Forgot your password?',
+                      '?שכחת סיססמא',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),

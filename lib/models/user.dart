@@ -1,8 +1,8 @@
 class User {
-  final String userName;
-  final String email;
-  final String token;
-  final String imageUrl;
+  late String userName;
+  late String email;
+  late String token;
+  late String imageUrl;
 
   User(
       {required this.userName,

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitfix/middleware/userApi.dart';
-import 'package:fitfix/provider/userProvider.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -78,7 +77,6 @@ class FireBaseApi {
     if (userInfo.additionalUserInfo!.isNewUser) {
       await UserApi.saveUserDetails(userName, uid, email, photoURL);
     }
-    UserProvider.userSignIn(email, userName, token, photoURL);
   }
 
   static void resetPassword(String email) {

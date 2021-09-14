@@ -21,25 +21,25 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) =>
-              UserProvider(userName: '', email: '', token: '', imageUrl: ''),
+              // UserProvider(userName: '', email: '', token: '', imageUrl: ''),
+              UserProvider(),
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, userSnapShot) {
-            // if (userSnapShot.connectionState == ConnectionState.waiting) {
-            //   return LoadingCircular();
-            // }
-            if (userSnapShot.hasData) {
-              return UserHomeScreen();
-            }
-            return HomeScreen();
-          },
+        home: Directionality(
+          textDirection: TextDirection.rtl,
+          child: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, userSnapShot) {
+              if (userSnapShot.hasData) {
+                return UserHomeScreen();
+              }
+              return HomeScreen();
+            },
+          ),
         ),
         routes: {
           AuthScreen.routeName: (context) => AuthScreen(),

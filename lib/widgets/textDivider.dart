@@ -17,8 +17,9 @@ class TextDivider extends StatelessWidget {
               )),
         ),
         Text(
-          "OR",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          "או",
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
         Expanded(
           child: new Container(

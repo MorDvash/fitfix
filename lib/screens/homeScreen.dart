@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   void navigateToSignUp(BuildContext context) {
-    Navigator.of(context).pushNamed(AuthScreen.routeName, arguments: 'Sign Up');
+    Navigator.of(context).pushNamed(AuthScreen.routeName, arguments: 'הרשמה');
   }
 
   @override
@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     RoundedElevatedButton(
-                      'Create a New Account',
+                      'הרשמה',
                       navigateToSignUp,
                       context,
                     )
@@ -84,7 +84,7 @@ class SocialMediaButtons extends StatelessWidget {
           FireBaseApi.signInWithFacebook();
         } else if (imagePath.contains('email')) {
           Navigator.of(context)
-              .pushNamed(AuthScreen.routeName, arguments: 'Sign In');
+              .pushNamed(AuthScreen.routeName, arguments: 'התחברות');
         }
       },
       child: Image.asset(imagePath),
