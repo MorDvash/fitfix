@@ -54,7 +54,7 @@ class FireBaseApi {
     }
   }
 
-  static Future<void> signInWithFacebook() async {
+  static Future<UserModel> signInWithFacebook() async {
     try {
       final LoginResult result = await FacebookAuth.instance.login();
       if (result.status == LoginStatus.success) {
@@ -62,18 +62,20 @@ class FireBaseApi {
             FacebookAuthProvider.credential(result.accessToken!.token);
         final userInfo =
             await FirebaseAuth.instance.signInWithCredential(credential);
-        saveUser(userInfo);
+        return saveUser(userInfo);
+      } else {
+        throw 'שגיאה - אנא נסה מאוחר יותר';
       }
-      return null;
     } catch (error) {
       print(error);
+      throw error;
     }
   }
 
   static Future<UserModel> saveUser(userInfo) async {
     String userName = userInfo.user!.displayName as String;
     String email = userInfo.user!.email as String;
-    String photoURL = userInfo.user!.photoURL as String;
+    String photoURL = userInfo.user.photoURL ? userInfo.user.photoURL : '';
     String uid = userInfo.user!.uid;
     String token = await FirebaseAuth.instance.currentUser!.getIdToken();
     if (userInfo.additionalUserInfo!.isNewUser) {

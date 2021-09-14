@@ -82,7 +82,9 @@ class SocialMediaButtons extends StatelessWidget {
       Provider.of<UserProvider>(context, listen: false)
           .insertUserInfo(userinfo);
     } else if (imagePath.contains('facebook')) {
-      FireBaseApi.signInWithFacebook();
+      var userinfo = await FireBaseApi.signInWithFacebook();
+      Provider.of<UserProvider>(context, listen: false)
+          .insertUserInfo(userinfo);
     } else if (imagePath.contains('email')) {
       Navigator.of(context)
           .pushNamed(AuthScreen.routeName, arguments: 'התחברות');

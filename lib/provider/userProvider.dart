@@ -2,10 +2,10 @@ import 'package:fitfix/models/user.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserProvider with ChangeNotifier {
-  UserModel? user;
+  var user = UserModel(userName: '', email: '', token: '', imageUrl: '');
 
   bool get isAuth {
-    if (user?.token != '') {
+    if (user.token != '') {
       return true;
     }
     return false;
@@ -17,10 +17,10 @@ class UserProvider with ChangeNotifier {
   }
 
   void signOut() {
-    user!.token = '';
-    user!.email = '';
-    user!.userName = '';
-    user!.imageUrl = '';
+    user.token = '';
+    user.email = '';
+    user.userName = '';
+    user.imageUrl = '';
     notifyListeners();
   }
 }
