@@ -7,20 +7,22 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FireBaseApi {
-  static Future<void> signUpWithEmail(
+  static Future<UserModel> signUpWithEmail(
       String email, String password, String userName) async {
     try {
       UserCredential userInfo = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      saveUser(userInfo);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
+      return saveUser(userInfo, userName);
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'weak-password') {
         print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
+      } else if (error.code == 'email-already-in-use') {
         print('The account already exists for that email.');
       }
+      throw error;
     } catch (error) {
       print(error);
+      throw error;
     }
   }
 
@@ -47,7 +49,7 @@ class FireBaseApi {
       );
       var userInfo =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      return saveUser(userInfo);
+      return saveUser(userInfo, '');
     } catch (error) {
       print(error);
       throw error;
@@ -62,7 +64,7 @@ class FireBaseApi {
             FacebookAuthProvider.credential(result.accessToken!.token);
         final userInfo =
             await FirebaseAuth.instance.signInWithCredential(credential);
-        return saveUser(userInfo);
+        return saveUser(userInfo, '');
       } else {
         throw 'שגיאה - אנא נסה מאוחר יותר';
       }
@@ -72,11 +74,14 @@ class FireBaseApi {
     }
   }
 
-  static Future<UserModel> saveUser(userInfo) async {
-    String userName = userInfo.user!.displayName as String;
-    String email = userInfo.user!.email as String;
-    String photoURL = userInfo.user.photoURL ? userInfo.user.photoURL : '';
-    String uid = userInfo.user!.uid;
+  static Future<UserModel> saveUser(userInfo, displayName) async {
+    String userName = userInfo.user.displayName != null
+        ? userInfo.user.displayName
+        : displayName;
+    String email = userInfo.user.email;
+    String photoURL =
+        userInfo.user.photoURL != null ? userInfo.user.photoURL : '';
+    String uid = userInfo.user.uid;
     String token = await FirebaseAuth.instance.currentUser!.getIdToken();
     if (userInfo.additionalUserInfo!.isNewUser) {
       await UserApi.saveUserDetails(userName, uid, email, photoURL);

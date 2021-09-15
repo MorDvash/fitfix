@@ -1,8 +1,10 @@
 import 'package:fitfix/middleware/FirebaseApi.dart';
+import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/widgets/TextFormField.dart';
 import 'package:fitfix/widgets/roundedElevatedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
   static const routeName = 'authScreen';
@@ -46,7 +48,10 @@ class _AuthScreenState extends State<AuthScreen> {
     if (isValid) {
       _formKey.currentState!.save();
       if (title == 'הרשמה') {
-        FireBaseApi.signUpWithEmail(_email, _password, _userName);
+        var userInfo =
+            await FireBaseApi.signUpWithEmail(_email, _password, _userName);
+        Provider.of<UserProvider>(context, listen: false)
+            .insertUserInfo(userInfo);
       } else {
         FireBaseApi.signInWithEmail(_email, _password);
       }
@@ -56,18 +61,16 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final _passwordValidator = MultiValidator([
-      RequiredValidator(errorText: 'Password is required'),
-      MinLengthValidator(7,
-          errorText: 'Password must be at least 7 digits long'),
+      RequiredValidator(errorText: 'אנא מלא שדה זה'),
+      MinLengthValidator(7, errorText: 'סיסמא קצרה מידי'),
     ]);
     final _emailValidator = MultiValidator([
-      RequiredValidator(errorText: 'Email is required'),
-      EmailValidator(errorText: 'Enter a valid email address'),
+      RequiredValidator(errorText: 'אנא מלא שדה זה'),
+      EmailValidator(errorText: 'דוא״ל לא תקין'),
     ]);
     final _usernameValidator = MultiValidator([
-      RequiredValidator(errorText: 'Username is required'),
-      MinLengthValidator(2,
-          errorText: 'Username must be at least 2 digits long'),
+      RequiredValidator(errorText: 'אנא מלא שדה זה'),
+      MinLengthValidator(2, errorText: 'שם משתמש קצר מידי'),
     ]);
     final title = ModalRoute.of(context)!.settings.arguments as String;
     var label = title == 'הרשמה' ? 'הרשם' : 'התחבר';

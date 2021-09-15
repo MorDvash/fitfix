@@ -13,6 +13,7 @@ class UserProvider with ChangeNotifier {
 
   void insertUserInfo(UserModel userInfo) {
     user = userInfo;
+    print('got here');
     notifyListeners();
   }
 
