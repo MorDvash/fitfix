@@ -48,14 +48,11 @@ class _AuthScreenState extends State<AuthScreen> {
     if (isValid) {
       _formKey.currentState!.save();
       if (title == 'הרשמה') {
-        var userInfo =
-            await FireBaseApi.signUpWithEmail(_email, _password, _userName);
         Provider.of<UserProvider>(context, listen: false)
-            .insertUserInfo(userInfo);
+            .signUpWithEmailProvider(_email, _password, _userName);
       } else {
-        var userInfo = await FireBaseApi.signInWithEmail(_email, _password);
         Provider.of<UserProvider>(context, listen: false)
-            .insertUserInfo(userInfo);
+            .signInWithEmailProvider(_email, _password);
       }
     }
   }

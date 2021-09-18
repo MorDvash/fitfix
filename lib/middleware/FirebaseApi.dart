@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fitfix/middleware/userApi.dart';
 import 'package:fitfix/models/user.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FireBaseApi {
-  static Future<UserModel> signUpWithEmail(
+  static Future<Map<String, dynamic>> signUpWithEmail(
       String email, String password, String userName) async {
     try {
       UserCredential userInfo = await FirebaseAuth.instance
@@ -26,13 +25,11 @@ class FireBaseApi {
     }
   }
 
-  static Future<UserModel> signInWithEmail(
-      String email, String password) async {
+  static Future<String> signInWithEmail(String email, String password) async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      String token = await FirebaseAuth.instance.currentUser!.getIdToken();
-      return await UserApi.getUserDetails(token);
+      return await FirebaseAuth.instance.currentUser!.getIdToken();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -45,7 +42,7 @@ class FireBaseApi {
     }
   }
 
-  static Future<UserModel> signInWithGoogle() async {
+  static Future<Map<String, dynamic>> signInWithGoogle() async {
     try {
       var googleUser = await GoogleSignIn().signIn();
       var googleAuth = await googleUser!.authentication;
@@ -62,7 +59,7 @@ class FireBaseApi {
     }
   }
 
-  static Future<UserModel> signInWithFacebook() async {
+  static Future<Map<String, dynamic>> signInWithFacebook() async {
     try {
       final LoginResult result = await FacebookAuth.instance.login();
       if (result.status == LoginStatus.success) {
@@ -80,24 +77,23 @@ class FireBaseApi {
     }
   }
 
-  static Future<UserModel> saveUser(userInfo, displayName) async {
+  static Future<Map<String, dynamic>> saveUser(userInfo, displayName) async {
     String userName = userInfo.user.displayName != null
         ? userInfo.user.displayName
         : displayName;
     String email = userInfo.user.email;
     String photoURL =
         userInfo.user.photoURL != null ? userInfo.user.photoURL : '';
-    String uid = userInfo.user.uid;
     String token = await FirebaseAuth.instance.currentUser!.getIdToken();
-    if (userInfo.additionalUserInfo!.isNewUser) {
-      await UserApi.saveUserDetails(userName, uid, email, photoURL, token);
-    }
-    return UserModel(
-        userName: userName,
-        email: email,
-        token: token,
-        imageUrl: photoURL,
-        userType: 0);
+    return userInfo = {
+      'userData': UserModel(
+          userName: userName,
+          email: email,
+          token: token,
+          imageUrl: photoURL,
+          userType: 0),
+      'isNewUser': userInfo.additionalUserInfo!.isNewUser,
+    };
   }
 
   static void resetPassword(String email) {

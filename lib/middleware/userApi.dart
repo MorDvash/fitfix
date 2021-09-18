@@ -4,8 +4,8 @@ import 'package:fitfix/models/user.dart';
 import 'package:http/http.dart' as http;
 
 class UserApi {
-  static Future<void> saveUserDetails(String userName, String uid, String email,
-      String imageUrl, String token) async {
+  static Future<void> saveUserDetails(String userName, String email,
+      String imageUrl, String token, int userType) async {
     var url = Uri.parse('http://localhost:4000/user/signUp');
     try {
       await http.post(url,
@@ -14,7 +14,7 @@ class UserApi {
             'Authorization': 'Bearer $token',
           },
           body: jsonEncode({
-            "uid": uid,
+            "userType": userType,
             "email": email,
             "name": userName,
             "imageUrl": imageUrl,

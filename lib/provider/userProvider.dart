@@ -1,3 +1,4 @@
+import 'package:fitfix/middleware/FirebaseApi.dart';
 import 'package:fitfix/middleware/userApi.dart';
 import 'package:fitfix/models/user.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,50 @@ class UserProvider with ChangeNotifier {
       return true;
     }
     return false;
+  }
+
+  Future<void> signWithGoogleProvider() async {
+    var userInfo = await FireBaseApi.signInWithGoogle();
+    if (userInfo['isNewUser']) {
+      await UserApi.saveUserDetails(
+          userInfo['userData'].userName,
+          userInfo['userData'].email,
+          userInfo['userData'].imageUrl,
+          userInfo['userData'].token,
+          userInfo['userData'].userType);
+    } else {}
+    insertUserInfo(userInfo['userData']);
+  }
+
+  Future<void> signWithFacebookProvider() async {
+    var userInfo = await FireBaseApi.signInWithFacebook();
+    if (userInfo['isNewUser']) {
+      await UserApi.saveUserDetails(
+          userInfo['userData'].userName,
+          userInfo['userData'].email,
+          userInfo['userData'].imageUrl,
+          userInfo['userData'].token,
+          userInfo['userData'].userType);
+    } else {}
+    insertUserInfo(userInfo['userData']);
+  }
+
+  Future<void> signUpWithEmailProvider(
+      String email, String password, String userName) async {
+    var userInfo = await FireBaseApi.signUpWithEmail(email, password, userName);
+    await UserApi.saveUserDetails(
+        userInfo['userData'].userName,
+        userInfo['userData'].email,
+        userInfo['userData'].imageUrl,
+        userInfo['userData'].token,
+        userInfo['userData'].userType);
+    insertUserInfo(userInfo['userData']);
+  }
+
+  Future<void> signInWithEmailProvider(String email, String password) async {
+    var token = await FireBaseApi.signInWithEmail(email, password);
+    var userInfo = await UserApi.getUserDetails(token);
+    insertUserInfo(userInfo);
   }
 
   void insertUserInfo(UserModel userInfo) {

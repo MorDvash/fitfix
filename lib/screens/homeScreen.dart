@@ -1,4 +1,3 @@
-import 'package:fitfix/middleware/FirebaseApi.dart';
 import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/screens/authScreen.dart';
 import 'package:fitfix/widgets/roundedElevatedButton.dart';
@@ -78,13 +77,11 @@ class SocialMediaButtons extends StatelessWidget {
 
   Future<void> signWithSocial(BuildContext context) async {
     if (imagePath.contains('google')) {
-      var userinfo = await FireBaseApi.signInWithGoogle();
       Provider.of<UserProvider>(context, listen: false)
-          .insertUserInfo(userinfo);
+          .signWithGoogleProvider();
     } else if (imagePath.contains('facebook')) {
-      var userinfo = await FireBaseApi.signInWithFacebook();
       Provider.of<UserProvider>(context, listen: false)
-          .insertUserInfo(userinfo);
+          .signWithFacebookProvider();
     } else if (imagePath.contains('email')) {
       Navigator.of(context)
           .pushNamed(AuthScreen.routeName, arguments: 'התחברות');
