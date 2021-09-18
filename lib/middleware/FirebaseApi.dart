@@ -26,16 +26,22 @@ class FireBaseApi {
     }
   }
 
-  static Future<void> signInWithEmail(String email, String password) async {
+  static Future<UserModel> signInWithEmail(
+      String email, String password) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      String token = await FirebaseAuth.instance.currentUser!.getIdToken();
+      return await UserApi.getUserDetails(token);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
       }
+      throw e.code;
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -84,10 +90,14 @@ class FireBaseApi {
     String uid = userInfo.user.uid;
     String token = await FirebaseAuth.instance.currentUser!.getIdToken();
     if (userInfo.additionalUserInfo!.isNewUser) {
-      await UserApi.saveUserDetails(userName, uid, email, photoURL);
+      await UserApi.saveUserDetails(userName, uid, email, photoURL, token);
     }
     return UserModel(
-        userName: userName, email: email, token: token, imageUrl: photoURL);
+        userName: userName,
+        email: email,
+        token: token,
+        imageUrl: photoURL,
+        userType: 0);
   }
 
   static void resetPassword(String email) {

@@ -1,8 +1,10 @@
+import 'package:fitfix/middleware/userApi.dart';
 import 'package:fitfix/models/user.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserProvider with ChangeNotifier {
-  var user = UserModel(userName: '', email: '', token: '', imageUrl: '');
+  var user =
+      UserModel(userName: '', email: '', token: '', imageUrl: '', userType: 0);
 
   bool get isAuth {
     if (user.token != '') {
@@ -13,8 +15,11 @@ class UserProvider with ChangeNotifier {
 
   void insertUserInfo(UserModel userInfo) {
     user = userInfo;
-    print('got here');
     notifyListeners();
+  }
+
+  void updateUserType(int userType) {
+    UserApi.updateUserTypeToDB(user.token, userType);
   }
 
   void signOut() {
@@ -22,6 +27,7 @@ class UserProvider with ChangeNotifier {
     user.email = '';
     user.userName = '';
     user.imageUrl = '';
+    user.userType = 0;
     notifyListeners();
   }
 }

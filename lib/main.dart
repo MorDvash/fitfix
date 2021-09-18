@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/screens/authScreen.dart';
 import 'package:fitfix/screens/homeScreen.dart';
+import 'package:fitfix/screens/instructorOrTrainer.dart';
 import 'package:fitfix/screens/userHomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,9 +29,14 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: userProvider.isAuth ? UserHomeScreen() : HomeScreen(),
+          home: userProvider.isAuth
+              ? userProvider.user.userType != 0
+                  ? UserHomeScreen()
+                  : InstructorOrTrainerScreen()
+              : HomeScreen(),
           routes: {
             AuthScreen.routeName: (context) => AuthScreen(),
+            UserHomeScreen.routeName: (context) => UserHomeScreen(),
           },
         ),
       ),
