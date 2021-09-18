@@ -11,7 +11,7 @@ class FireBaseApi {
     try {
       UserCredential userInfo = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      return saveUser(userInfo, userName);
+      return createUserInfo(userInfo, userName);
     } on FirebaseAuthException catch (error) {
       if (error.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -52,7 +52,7 @@ class FireBaseApi {
       );
       var userInfo =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      return saveUser(userInfo, '');
+      return createUserInfo(userInfo, '');
     } catch (error) {
       print(error);
       throw error;
@@ -67,7 +67,7 @@ class FireBaseApi {
             FacebookAuthProvider.credential(result.accessToken!.token);
         final userInfo =
             await FirebaseAuth.instance.signInWithCredential(credential);
-        return saveUser(userInfo, '');
+        return createUserInfo(userInfo, '');
       } else {
         throw 'שגיאה - אנא נסה מאוחר יותר';
       }
@@ -77,7 +77,8 @@ class FireBaseApi {
     }
   }
 
-  static Future<Map<String, dynamic>> saveUser(userInfo, displayName) async {
+  static Future<Map<String, dynamic>> createUserInfo(
+      userInfo, displayName) async {
     String userName = userInfo.user.displayName != null
         ? userInfo.user.displayName
         : displayName;

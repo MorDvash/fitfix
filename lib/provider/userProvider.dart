@@ -23,8 +23,11 @@ class UserProvider with ChangeNotifier {
           userInfo['userData'].imageUrl,
           userInfo['userData'].token,
           userInfo['userData'].userType);
-    } else {}
-    insertUserInfo(userInfo['userData']);
+      insertUserInfo(userInfo['userData']);
+    } else {
+      var userData = await UserApi.getUserDetails(userInfo['userData'].token);
+      insertUserInfo(userData);
+    }
   }
 
   Future<void> signWithFacebookProvider() async {
@@ -36,8 +39,11 @@ class UserProvider with ChangeNotifier {
           userInfo['userData'].imageUrl,
           userInfo['userData'].token,
           userInfo['userData'].userType);
-    } else {}
-    insertUserInfo(userInfo['userData']);
+      insertUserInfo(userInfo['userData']);
+    } else {
+      var userData = await UserApi.getUserDetails(userInfo['userData'].token);
+      insertUserInfo(userData);
+    }
   }
 
   Future<void> signUpWithEmailProvider(
