@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserHomeScreen extends StatelessWidget {
+  static const routeName = 'userHomeScreen';
   const UserHomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -19,8 +20,8 @@ class UserHomeScreen extends StatelessWidget {
                 child: Text('is auth'),
               ),
               ElevatedButton(
-                  onPressed: () {
-                    FireBaseApi.signOutFromFireBase();
+                  onPressed: () async {
+                    await FireBaseApi.signOutFromFireBase();
                     Provider.of<UserProvider>(context, listen: false).signOut();
                   },
                   child: Text('Log Out'))

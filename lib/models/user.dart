@@ -3,10 +3,12 @@ class UserModel {
   String email;
   String token;
   String imageUrl;
+  int userType;
 
   UserModel(
       {required this.userName,
       required this.email,
       required this.token,
-      required this.imageUrl});
+      required this.imageUrl,
+      this.userType = 0});
 }

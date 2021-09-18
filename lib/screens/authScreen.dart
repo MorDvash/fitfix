@@ -53,7 +53,9 @@ class _AuthScreenState extends State<AuthScreen> {
         Provider.of<UserProvider>(context, listen: false)
             .insertUserInfo(userInfo);
       } else {
-        FireBaseApi.signInWithEmail(_email, _password);
+        var userInfo = await FireBaseApi.signInWithEmail(_email, _password);
+        Provider.of<UserProvider>(context, listen: false)
+            .insertUserInfo(userInfo);
       }
     }
   }
