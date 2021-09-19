@@ -48,12 +48,13 @@ class _AuthScreenState extends State<AuthScreen> {
     if (isValid) {
       _formKey.currentState!.save();
       if (title == 'הרשמה') {
-        Provider.of<UserProvider>(context, listen: false)
+        await Provider.of<UserProvider>(context, listen: false)
             .signUpWithEmailProvider(_email, _password, _userName);
       } else {
-        Provider.of<UserProvider>(context, listen: false)
+        await Provider.of<UserProvider>(context, listen: false)
             .signInWithEmailProvider(_email, _password);
       }
+      Navigator.of(context).pop();
     }
   }
 
