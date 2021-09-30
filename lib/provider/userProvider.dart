@@ -48,20 +48,30 @@ class UserProvider with ChangeNotifier {
 
   Future<void> signUpWithEmailProvider(
       String email, String password, String userName) async {
-    var userInfo = await FireBaseApi.signUpWithEmail(email, password, userName);
-    await UserApi.saveUserDetails(
-        userInfo['userData'].userName,
-        userInfo['userData'].email,
-        userInfo['userData'].imageUrl,
-        userInfo['userData'].token,
-        userInfo['userData'].userType);
-    insertUserInfo(userInfo['userData']);
+    try {
+      var userInfo =
+          await FireBaseApi.signUpWithEmail(email, password, userName);
+      await UserApi.saveUserDetails(
+          userInfo['userData'].userName,
+          userInfo['userData'].email,
+          userInfo['userData'].imageUrl,
+          userInfo['userData'].token,
+          userInfo['userData'].userType);
+      insertUserInfo(userInfo['userData']);
+    } catch (error) {
+      print(error);
+    }
   }
 
   Future<void> signInWithEmailProvider(String email, String password) async {
-    var token = await FireBaseApi.signInWithEmail(email, password);
-    var userInfo = await UserApi.getUserDetails(token);
-    insertUserInfo(userInfo);
+    try {
+      var token = await FireBaseApi.signInWithEmail(email, password);
+      var userInfo = await UserApi.getUserDetails(token);
+      insertUserInfo(userInfo);
+    } catch (error) {
+      print('userProvider:$error');
+      throw error;
+    }
   }
 
   void insertUserInfo(UserModel userInfo) {

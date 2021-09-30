@@ -20,7 +20,7 @@ class FireBaseApi {
       }
       throw error;
     } catch (error) {
-      print(error);
+      print('firebaseApi:$error');
       throw error;
     }
   }
@@ -31,12 +31,13 @@ class FireBaseApi {
           .signInWithEmailAndPassword(email: email, password: password);
       return await FirebaseAuth.instance.currentUser!.getIdToken();
     } on FirebaseAuthException catch (e) {
+      var error = 'שגיאה אנא נסה מאוחר יותר';
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        error = 'לא נמצא משתמש עבור דוא״ל זה';
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        error = 'סיסמא אינה נכונה';
       }
-      throw e.code;
+      throw error;
     } catch (error) {
       throw error;
     }

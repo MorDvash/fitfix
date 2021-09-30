@@ -1,6 +1,7 @@
 import 'package:fitfix/middleware/FirebaseApi.dart';
 import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/widgets/TextFormField.dart';
+import 'package:fitfix/widgets/errorDialog.dart';
 import 'package:fitfix/widgets/roundedElevatedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -47,14 +48,19 @@ class _AuthScreenState extends State<AuthScreen> {
     bool isValid = _formKey.currentState!.validate();
     if (isValid) {
       _formKey.currentState!.save();
-      if (title == 'הרשמה') {
-        await Provider.of<UserProvider>(context, listen: false)
-            .signUpWithEmailProvider(_email, _password, _userName);
-      } else {
-        await Provider.of<UserProvider>(context, listen: false)
-            .signInWithEmailProvider(_email, _password);
+      try {
+        if (title == 'הרשמה') {
+          await Provider.of<UserProvider>(context, listen: false)
+              .signUpWithEmailProvider(_email, _password, _userName);
+        } else {
+          await Provider.of<UserProvider>(context, listen: false)
+              .signInWithEmailProvider(_email, _password);
+        }
+        Navigator.of(context).pop();
+      } catch (error) {
+        print('got here');
+        showDialog(context: context, builder: (_) => ErrorDialog());
       }
-      Navigator.of(context).pop();
     }
   }
 
