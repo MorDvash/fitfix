@@ -9,6 +9,7 @@ class FitnessInstructorsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('מאמני כושר אישיים'),
+        actions: [],
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:fitfix/screens/homeScreen.dart';
 import 'package:fitfix/screens/instructorOrTrainer.dart';
 import 'package:fitfix/screens/userHomeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -26,7 +27,16 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<UserProvider>(
         builder: (context, userProvider, _) => MaterialApp(
-          title: 'Flutter Demo',
+          localizationsDelegates: [
+            GlobalCupertinoLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale('en', ''),
+            Locale('he', ''),
+          ],
+          locale: Locale("he", ""),
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
