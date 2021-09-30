@@ -1,4 +1,5 @@
 import 'package:fitfix/provider/userProvider.dart';
+import 'package:fitfix/screens/fitnessInstructors.dart';
 import 'package:fitfix/screens/userHomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,11 @@ class InstructorOrTrainerScreen extends StatelessWidget {
 
   void chooseUserType(BuildContext context, int userType) {
     Provider.of<UserProvider>(context, listen: false).updateUserType(userType);
-    Navigator.of(context).pushNamed(UserHomeScreen.routeName);
+    if (userType == 1) {
+      Navigator.of(context).pushNamed(FitnessInstructorsScreen.routeName);
+    } else {
+      Navigator.of(context).pushNamed(UserHomeScreen.routeName);
+    }
   }
 
   @override

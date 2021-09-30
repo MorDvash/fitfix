@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/screens/authScreen.dart';
+import 'package:fitfix/screens/fitnessInstructors.dart';
 import 'package:fitfix/screens/homeScreen.dart';
 import 'package:fitfix/screens/instructorOrTrainer.dart';
 import 'package:fitfix/screens/userHomeScreen.dart';
@@ -31,12 +32,16 @@ class MyApp extends StatelessWidget {
           ),
           home: userProvider.isAuth
               ? userProvider.user.userType != 0
-                  ? UserHomeScreen()
+                  ? userProvider.user.userType == 1
+                      ? FitnessInstructorsScreen()
+                      : UserHomeScreen()
                   : InstructorOrTrainerScreen()
               : HomeScreen(),
           routes: {
             AuthScreen.routeName: (context) => AuthScreen(),
             UserHomeScreen.routeName: (context) => UserHomeScreen(),
+            FitnessInstructorsScreen.routeName: (context) =>
+                FitnessInstructorsScreen(),
           },
         ),
       ),
