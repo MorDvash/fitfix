@@ -1,3 +1,4 @@
+import 'package:fitfix/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 
 class FitnessInstructorsScreen extends StatelessWidget {
@@ -11,6 +12,7 @@ class FitnessInstructorsScreen extends StatelessWidget {
         title: Text('מאמני כושר אישיים'),
         actions: [],
       ),
+      drawer: MainDrawer(),
     );
   }
 }
