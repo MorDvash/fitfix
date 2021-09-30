@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitfix/models/error.dart';
 import 'package:fitfix/models/user.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -31,11 +32,11 @@ class FireBaseApi {
           .signInWithEmailAndPassword(email: email, password: password);
       return await FirebaseAuth.instance.currentUser!.getIdToken();
     } on FirebaseAuthException catch (e) {
-      var error = 'שגיאה אנא נסה מאוחר יותר';
+      var error = ErrorModel(message: 'שגיאה אנא נסה מאוחר יותר', code: 404);
       if (e.code == 'user-not-found') {
-        error = 'לא נמצא משתמש עבור דוא״ל זה';
+        error.message = 'לא נמצא משתמש עבור דוא״ל זה';
       } else if (e.code == 'wrong-password') {
-        error = 'סיסמא אינה נכונה';
+        error.message = 'סיסמא אינה נכונה';
       }
       throw error;
     } catch (error) {

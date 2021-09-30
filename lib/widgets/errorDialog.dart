@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ErrorDialog extends StatelessWidget {
-  const ErrorDialog({Key? key}) : super(key: key);
+  final String message;
+
+  ErrorDialog(this.message);
 
   @override
   Widget build(BuildContext context) {
@@ -9,15 +11,14 @@ class ErrorDialog extends StatelessWidget {
       title: const Text('שגיאה!'),
       content: SingleChildScrollView(
         child: ListBody(
-          children: const <Widget>[
-            Text('This is a demo alert dialog.'),
-            Text('Would you like to approve of this message?'),
+          children: <Widget>[
+            Text(message),
           ],
         ),
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text('Approve'),
+          child: const Text('אישור'),
           onPressed: () {
             Navigator.of(context).pop();
           },

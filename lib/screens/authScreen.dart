@@ -1,4 +1,5 @@
 import 'package:fitfix/middleware/FirebaseApi.dart';
+import 'package:fitfix/models/error.dart';
 import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/widgets/TextFormField.dart';
 import 'package:fitfix/widgets/errorDialog.dart';
@@ -57,9 +58,9 @@ class _AuthScreenState extends State<AuthScreen> {
               .signInWithEmailProvider(_email, _password);
         }
         Navigator.of(context).pop();
-      } catch (error) {
-        print('got here');
-        showDialog(context: context, builder: (_) => ErrorDialog());
+      } on ErrorModel catch (error) {
+        showDialog(
+            context: context, builder: (_) => ErrorDialog(error.message));
       }
     }
   }

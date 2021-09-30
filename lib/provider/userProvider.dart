@@ -69,7 +69,6 @@ class UserProvider with ChangeNotifier {
       var userInfo = await UserApi.getUserDetails(token);
       insertUserInfo(userInfo);
     } catch (error) {
-      print('userProvider:$error');
       throw error;
     }
   }
