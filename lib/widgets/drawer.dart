@@ -1,22 +1,22 @@
+import 'package:fitfix/provider/userProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserProvider>(context).user;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: const <Widget>[
+        children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Colors.grey,
             ),
-            child: Text(
-              'Drawer Header',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-              ),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png'),
             ),
           ),
           ListTile(
