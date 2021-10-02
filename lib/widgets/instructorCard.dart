@@ -16,8 +16,22 @@ class InstructorCard extends StatelessWidget {
             leading: CircleAvatar(
               backgroundImage: NetworkImage(_instructor.instructorImage),
             ),
+            trailing: RichText(
+              text: TextSpan(
+                children: [
+                  WidgetSpan(
+                    child: Icon(Icons.location_on),
+                  ),
+                  TextSpan(
+                    text: _instructor.location,
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
             title: Text(_instructor.businessName),
             subtitle: Text(_instructor.bio),
+            isThreeLine: true,
             onTap: () {},
           ),
           Row(
