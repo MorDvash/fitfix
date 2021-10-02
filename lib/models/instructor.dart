@@ -4,6 +4,7 @@ enum Gender { Men, Women, Other }
 
 class Instructor {
   final Place place;
+  final String instructorImage;
   final String imagePlace;
   final String businessName;
   final String location;
@@ -16,6 +17,7 @@ class Instructor {
 
   const Instructor({
     required this.place,
+    required this.instructorImage,
     required this.imagePlace,
     required this.businessName,
     required this.location,
