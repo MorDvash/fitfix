@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fitfix/provider/instructorsProvider.dart';
 import 'package:fitfix/provider/userProvider.dart';
 import 'package:fitfix/screens/authScreen.dart';
 import 'package:fitfix/screens/fitnessInstructors.dart';
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => InstructorsProvider(),
         ),
       ],
       child: Consumer<UserProvider>(
