@@ -14,10 +14,11 @@ class InstructorCard extends StatelessWidget {
         children: [
           ListTile(
             leading: CircleAvatar(
-              backgroundImage: NetworkImage(_instructor.imagePlace),
+              backgroundImage: NetworkImage(_instructor.instructorImage),
             ),
             title: Text(_instructor.businessName),
             subtitle: Text(_instructor.bio),
+            onTap: () {},
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,

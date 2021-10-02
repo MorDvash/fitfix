@@ -11,6 +11,5 @@ class InstructorsProvider with ChangeNotifier {
 
   void getInstructorsData() {
     _instructors = DUMMY_INSTRUCTOR;
-    print(_instructors);
   }
 }
