@@ -65,13 +65,13 @@ class _FitnessInstructorsScreenState extends State<FitnessInstructorsScreen> {
                     label: Text('סינון')),
               ],
             ),
-            ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: instructorList.length,
-                itemBuilder: (context, index) {
-                  return InstructorCard();
-                }),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: instructorList.length,
+                  itemBuilder: (context, index) {
+                    return InstructorCard(instructorList[index]);
+                  }),
+            ),
           ],
         ),
       ),
