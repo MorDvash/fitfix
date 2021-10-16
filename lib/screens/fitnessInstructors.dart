@@ -1,6 +1,7 @@
 import 'package:fitfix/provider/instructorsProvider.dart';
 import 'package:fitfix/widgets/drawer.dart';
 import 'package:fitfix/widgets/instructorCard.dart';
+import 'package:fitfix/widgets/instruvtorsfilter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -60,9 +61,18 @@ class _FitnessInstructorsScreenState extends State<FitnessInstructorsScreen> {
                   ),
                 ),
                 TextButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.waves),
-                    label: Text('סינון')),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true, // set this to true
+                      builder: (_) {
+                        return InstructorFilters();
+                      },
+                    );
+                  },
+                  icon: Icon(Icons.waves),
+                  label: Text('סינון'),
+                ),
               ],
             ),
             Expanded(
